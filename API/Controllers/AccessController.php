@@ -3,11 +3,12 @@ namespace API\Controllers;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Nodephp\Controller\CBaseController;
 
-class AccessController
+class AccessController extends CBaseController
 {
     public function indexAction(Request $request)
     {
-      return new Response('hello world');
+        $this->render('index.tpl',['Name'=>'b']);
     }
 }
