@@ -5,8 +5,8 @@ require_once('route.php');
 // init di
 
 //constant definition list
-defined('API_VIEWS_PATH') or define('API_VIEWS_PATH', realpath(__DIR__.'/API/Views/smarty/templates'));
-defined('API_VIEWS_CONFIG') or define('API_VIEWS_CONFIG', realpath(__DIR__.'/API/Views/smarty/configs'));
+defined('RESOURCE_PATH') or define('RESOURCE_PATH', realpath(__DIR__.'/API/Resources/'));
+defined('API_VIEWS_CONFIG') or define('API_VIEWS_CONFIG', realpath(__DIR__.'/API/'));
 defined('VENDOR_PATH') or define('VENDOR_PATH', realpath(__DIR__.'/vendor'));
 
 $di->register('context', 'Symfony\Component\Routing\RequestContext');
