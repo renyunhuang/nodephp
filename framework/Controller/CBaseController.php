@@ -11,6 +11,7 @@ class CBaseController
 
     public function __construct()
     {
+        $this->__initSmartyTrait();
         $this->prepareHandle();
     }
 

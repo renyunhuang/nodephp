@@ -7,7 +7,7 @@ trait DoctrineOrm
 
     private $entityManger = null;
 
-    public function __construct()
+    final public function __initDoctrineTrait()
     {
         if (file_exists(APP_PATH . '/bootstrap.php')) {
             require_once(APP_PATH . '/bootstrap.php');

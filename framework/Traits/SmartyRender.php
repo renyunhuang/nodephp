@@ -5,7 +5,7 @@ trait SmartyRender
 {
     private $smarty=null;
 
-    public function __construct()
+    final public function __initSmartyTrait()
     {
         $libpath = VENDOR_PATH.'/smarty/smarty/libs/Smarty.class.php';
         require_once($libpath);
