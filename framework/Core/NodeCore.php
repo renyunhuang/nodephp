@@ -19,10 +19,15 @@ class NodeCore extends HttpKernel
     protected $context;
     protected $response;
 
-    public function __construct($routes, EventDispatcher $dispatcher, ControllerResolver $resolver)
+    public function __construct($routes, Request $request, EventDispatcher $dispatcher, ControllerResolver $resolver)
     {
         $this->response = new NodeResponse();
-        $this->context = new RequestContext();
+        $this->context = new RequestContext($request->getBaseUrl(),
+            $request->getMethod(),
+            $request->getHost(),
+            $request->getScheme(),
+            $request->getPort(),
+            $request->getPort());
         $this->matcher = new UrlMatcher($routes, $this->context);
         parent::__construct($dispatcher, $resolver);
     }

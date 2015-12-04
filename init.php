@@ -1,13 +1,14 @@
 <?php
 
 use Symfony\Component\DependencyInjection\Reference;
+
 require_once('route.php');
 // init di
 
 //constant definition list
-defined('RESOURCE_PATH') or define('RESOURCE_PATH', realpath(__DIR__.'/API/Resources/'));
-defined('API_VIEWS_CONFIG') or define('API_VIEWS_CONFIG', realpath(__DIR__.'/API/'));
-defined('VENDOR_PATH') or define('VENDOR_PATH', realpath(__DIR__.'/vendor'));
+defined('RESOURCE_PATH') or define('RESOURCE_PATH', realpath(__DIR__ . '/API/Resources/'));
+defined('API_VIEWS_CONFIG') or define('API_VIEWS_CONFIG', realpath(__DIR__ . '/API/'));
+defined('VENDOR_PATH') or define('VENDOR_PATH', realpath(__DIR__ . '/vendor'));
 
 $di->register('context', 'Symfony\Component\Routing\RequestContext');
 
@@ -34,5 +35,5 @@ $di->getDefinition('dispatcher')
     ->addMethodCall('addSubscriber', array(new Reference('listener.string_response')));
 
 $di->register('NodeCore', 'Nodephp\\Core\\NodeCore')
-    ->setArguments(array($routes, new Reference('dispatcher'), new Reference('resolver')));
+    ->setArguments(array($routes, $request, new Reference('dispatcher'), new Reference('resolver')));
 
