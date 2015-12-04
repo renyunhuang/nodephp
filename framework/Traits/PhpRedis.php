@@ -1,0 +1,2 @@
+<?php
+namespace Nodephp\Traits;
