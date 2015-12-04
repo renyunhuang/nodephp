@@ -2,6 +2,7 @@
 namespace Nodephp\Core;
 
 use API\Events\UserEvent;
+use Nodephp\Core\NodeResponse;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RequestContext;
@@ -16,9 +17,11 @@ class NodeCore extends HttpKernel
 {
     protected $matcher;
     protected $context;
+    protected $response;
 
     public function __construct($routes, EventDispatcher $dispatcher, ControllerResolver $resolver)
     {
+        $this->response = new NodeResponse();
         $this->context = new RequestContext();
         $this->matcher = new UrlMatcher($routes, $this->context);
         parent::__construct($dispatcher, $resolver);
@@ -35,13 +38,19 @@ class NodeCore extends HttpKernel
             $controller = $this->resolver->getController($request);
             $arguments = $this->resolver->getArguments($request, $controller);
 
-            $response = call_user_func_array($controller, $arguments);
-            $this->dispatcher->dispatch('response', new UserEvent($response, $request));
-            $response->prepare($request)->send();
+            $this->response = clone call_user_func_array($controller, $arguments);
+
+            if ($this->response instanceof NodeResponse) {
+                $this->dispatcher->dispatch('response', new UserEvent($this->response, $request));
+            }
+
+            $this->response->prepare($request)->send();
         } catch (ResourceNotFoundException $e) {
-            return new Response($e->getMessage(), 404);
+            $this->response->Render(404);
+            $this->response->prepare($request)->send();
         } catch (\Exception $e) {
-            return new Response($e->getMessage(), 500);
+            $this->response->Render(505);
+            $this->response->prepare($request)->send();
         }
     }
 }
