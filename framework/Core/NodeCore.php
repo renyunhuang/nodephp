@@ -38,10 +38,12 @@ class NodeCore extends HttpKernel
             $controller = $this->resolver->getController($request);
             $arguments = $this->resolver->getArguments($request, $controller);
 
-            $this->response = clone call_user_func_array($controller, $arguments);
-
-            if ($this->response instanceof NodeResponse) {
-                $this->dispatcher->dispatch('response', new UserEvent($this->response, $request));
+            $callback = call_user_func_array($controller, $arguments);
+            if (is_object($callback) && $callback instanceof Response) {
+                $this->response = clone $callback;
+                if ($this->response instanceof NodeResponse) {
+                    $this->dispatcher->dispatch('response', new UserEvent($this->response, $request));
+                }
             }
 
             $this->response->prepare($request)->send();
