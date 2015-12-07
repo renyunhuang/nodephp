@@ -17,11 +17,11 @@ class NodeCore extends HttpKernel
 {
     protected $matcher;
     protected $context;
-    protected $response;
+    protected $defaultRes;
 
     public function __construct($routes, Request $request, EventDispatcher $dispatcher, ControllerResolver $resolver)
     {
-        $this->response = new NodeResponse();
+        $this->deflRes = new NodeResponse();
         $this->context = new RequestContext($request->getBaseUrl(),
             $request->getMethod(),
             $request->getHost(),
@@ -45,19 +45,19 @@ class NodeCore extends HttpKernel
 
             $callback = call_user_func_array($controller, $arguments);
             if (is_object($callback) && $callback instanceof Response) {
-                $this->response = clone $callback;
-                if ($this->response instanceof NodeResponse) {
-                    $this->dispatcher->dispatch('response', new UserEvent($this->response, $request));
+                $this->deflRes = clone $callback;
+                if ($this->deflRes instanceof NodeResponse) {
+                    $this->dispatcher->dispatch('response', new UserEvent($this->deflRes, $request));
                 }
             }
 
-            $this->response->prepare($request)->send();
+            $this->deflRes->prepare($request)->send();
         } catch (ResourceNotFoundException $e) {
-            $this->response->Render(404);
-            $this->response->prepare($request)->send();
+            $this->deflRes->Render(404);
+            $this->deflRes->prepare($request)->send();
         } catch (\Exception $e) {
-            $this->response->Render(505);
-            $this->response->prepare($request)->send();
+            $this->deflRes->Render(505);
+            $this->deflRes->prepare($request)->send();
         }
     }
 }

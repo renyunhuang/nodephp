@@ -5,6 +5,7 @@ use Nodephp\Traits\Validator;
 use Nodephp\Core\NodeResponse;
 use Nodephp\Traits\SmartyRender;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class CBaseController
 {
@@ -31,13 +32,14 @@ class CBaseController
         return $res;
     }
 
-    public function redirect($url, $status='301', $header = array())
+    public function redirect($url, $way = 'html', $status = '301', $header = array())
     {
-        $this->checkValidUrl($url);
-        $this->checkValidStatus('direct', $status);
-        $redirectResponse = new Response('', $status, $header);
-        $redirectResponse->headers->set('Location', $url);
-
-        return $redirectResponse;
+        $redirectResponse = RedirectResponse::create($url, $status, $header);
+        if ('html' === $way) {
+            $content = $redirectResponse->getContent();
+            $this->render('redirect.tpl', ['content' => $content]);
+        } else {
+            return $redirectResponse;
+        }
     }
 }
