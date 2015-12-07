@@ -3,6 +3,7 @@ namespace Nodephp\Core;
 
 use API\Events\UserEvent;
 use Nodephp\Core\NodeResponse;
+use Nodephp\Traits\SessionManger;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RequestContext;
@@ -15,6 +16,8 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class NodeCore extends HttpKernel
 {
+    use SessionManger;
+
     protected $matcher;
     protected $context;
     protected $defaultRes;
@@ -37,11 +40,13 @@ class NodeCore extends HttpKernel
         $type = HttpKernelInterface::MASTER_REQUEST,
         $catch = false
     ) {
-        try {
+        try
+        {
             $request->attributes->add($this->matcher->match($request->getPathInfo()));
-
             $controller = $this->resolver->getController($request);
             $arguments = $this->resolver->getArguments($request, $controller);
+
+            $this->_initNativeSession($request);
 
             $callback = call_user_func_array($controller, $arguments);
             if (is_object($callback) && $callback instanceof Response) {
