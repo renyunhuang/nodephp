@@ -15,13 +15,13 @@ trait SmartyRender
         }
     }
 
-    public function render($template='index.tpl', $arrParams=array())
+    public function render($template = 'index.tpl', $arrParams = array())
     {
-        array_map(function($k,$v){
-            $this->smarty->assign($k, $v);
-        }, array_keys($arrParams),array_values($arrParams));
-
-        $this->smarty->display($template);
+        $instance = is_object($this->smarty) ? $this->smarty : $this->__initSmartyTrait();
+        array_map(function ($k, $v) use ($instance) {
+            $instance->assign($k, $v);
+        }, array_keys($arrParams), array_values($arrParams));
+        $instance->display($template);
     }
 
     public function initSmarty()
@@ -29,8 +29,8 @@ trait SmartyRender
         $this->smarty->setTemplateDir(API_VIEWS_PATH);
         $this->smarty->setConfigDir(API_VIEWS_CONFIG);
         $this->smarty->debugging = true;
-        $this->smarty->caching = true;
-        $this->smarty->cache_lifetime = 120;
+        $this->smarty->caching = false;
+        $this->smarty->cache_lifetime = 0;
     }
 
 }
