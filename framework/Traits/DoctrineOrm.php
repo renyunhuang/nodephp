@@ -30,4 +30,32 @@ trait DoctrineOrm
             $this->entityManger->flush();
         }
     }
+
+    public function findAll()
+    {
+        if($this->entityManger) {
+            return $this->entityManger->findAll();
+        }
+    }
+
+    public function find($entity, $id)
+    {
+        if($this->entityManger) {
+            return $this->entityManger->find($entity, $id);
+        }
+    }
+
+    public function getRepository($entity)
+    {
+        if($this->entityManger) {
+            return $this->entityManger->getRepository($entity);
+        }
+    }
+
+    public function createQuery($dql)
+    {
+        if($this->entityManger) {
+            return $this->entityManger->createQuery($dql);
+        }
+    }
 }

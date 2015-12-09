@@ -50,4 +50,42 @@ class AccessController extends CBaseController
 
         }
     }
+
+    /**
+     * reference http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/tutorials/getting-started.html
+     * @param Request $request
+     */
+    public function ormPersistAction(Request $request)
+    {
+        try {
+            # create
+            $user = new User();
+            $user->setUserName('orm_demo');
+            $user->setOpenId(crypt('orm_demo', 'nd'));
+            $user->setPassword(crypt('orm_demo', '$1$somethin$'));
+            $this->persist($user);
+            $this->flush();
+            # findAll
+            $users = $this->getRepository(User::ENTITY_NAME)->findAll();
+
+            while ($user = array_shift($users)) {
+                echo sprintf("-%s\n", $user->getOpenId());
+                $lastuid = $user->getId();
+            }
+            # find
+            $user = $this->find(User::ENTITY_NAME, $lastuid);
+            if ($user) {
+                echo sprintf("username:%s", $user->getUserName());
+            }
+            #dql
+            $dql = "SELECT u.openid FROM " . User::ENTITY_NAME . " u ORDER BY u.id DESC";
+            $query = $this->createQuery($dql);
+            $rs = $query->getArrayResult();
+            foreach ((array)$rs as $row) {
+                echo $row['openid'] . nl2br(PHP_EOL);
+            }
+        } catch (\Exception $e) {
+           
+        }
+    }
 }

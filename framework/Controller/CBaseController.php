@@ -3,6 +3,7 @@ namespace Nodephp\Controller;
 
 use Nodephp\Traits\Validator;
 use Nodephp\Core\NodeResponse;
+use Nodephp\Traits\DoctrineOrm;
 use Nodephp\Traits\SmartyRender;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -11,10 +12,12 @@ class CBaseController
 {
     use SmartyRender;
     use Validator;
+    use DoctrineOrm;
 
     public function __construct()
     {
         $this->__initSmartyTrait();
+        $this->__initDoctrineTrait();
         $this->prepareHandle();
     }
 
