@@ -19,6 +19,18 @@ class User
      */
     protected $openid;
 
+    /**
+     * @ORM\Column(type="string", length=32)
+     */
+    protected $uname;
+
+    /**
+     * @ORM\Column(type="string", length=32)
+     */
+    protected $pwd;
+
+    const ENTITY_NAME = 'API\\Entities\\User';
+
     public function getId()
     {
         return $this->id;
@@ -29,8 +41,28 @@ class User
         return $this->$openid;
     }
 
+    public function getUserName()
+    {
+        return $this->uname;
+    }
+
+    public function getPassword()
+    {
+        return $this->pwd;
+    }
+
     public function setOpenId($openid)
     {
         $this->openid = $openid;
+    }
+
+    public function setUserName($uname)
+    {
+        $this->uname = $uname;
+    }
+
+    public function setPassword($pwd)
+    {
+        $this->pwd = $pwd;
     }
 }
