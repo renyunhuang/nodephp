@@ -1,0 +1,13 @@
+#!/usr/bin/env php
+<?php
+require_once(__DIR__."/../vendor/autoload.php");
+use Nodephp\Core\NodeApplication;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Helper\HelperSet;
+
+
+
+$input = new ArgvInput();
+$app = new NodeApplication('NodePHP Console', '1.0.1');
+
+$app->run($input);

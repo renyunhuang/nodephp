@@ -16,7 +16,7 @@
       "symfony/http-kernel": "2.1.*",
       "symfony/class-loader": "2.1.*",
       "symfony/event-dispatcher": "2.1.*",
-      "symfony/yaml": "2.*",
+      "symfony/console": "2.7.*",
       "doctrine/orm": "2.4.*",
       "doctrine/mongodb-odm": "1.0.3",
       "symfony/dependency-injection": "2.1.*",
