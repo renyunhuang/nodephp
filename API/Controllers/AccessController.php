@@ -85,7 +85,7 @@ class AccessController extends CBaseController
                 echo $row['openid'] . nl2br(PHP_EOL);
             }
         } catch (\Exception $e) {
-           
+
         }
     }
 }
