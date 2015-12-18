@@ -1,20 +1,15 @@
 <?php
 namespace API\Controllers;
 
+use API\Models\AccessModel;
 use Nodephp\Controller\CBaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Nodephp\Traits\DoctrineOdm;
-use API\Services\AccessSerivce;
-use API\Documents\Employee;
-use API\Documents\Address;
-use API\Documents\Project;
-use API\Documents\Manager;
 
 
-class AccessController extends CBaeController
+class AccessController extends CBaseController
 {
-    use DoctrineOdm;
+
 
     public function indexAction(Request $request)
     {
@@ -34,8 +29,8 @@ class AccessController extends CBaeController
     public function docPersistAction()
     {
         try {
-            $accessService = new AccessSerivce();
-            $accessService->docPersist();
+            $access = new AccessModel();
+            $access->docPersist();
         } catch (\InvalidArgumentException $e) {
 
         } catch (\Exception $e) {
@@ -52,8 +47,8 @@ class AccessController extends CBaeController
     public function ormPersistAction(Request $request)
     {
         try {
-            $accessService = new AccessSerivce();
-            $accessService->ormPersist();
+            $access = new AccessModel();
+            $access->ormPersist();
         } catch (\Exception $e) {
 
         }

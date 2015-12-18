@@ -4,7 +4,7 @@
  * @Date: 15-12-18
  * @Time: 下午2:51
  */
-namespace API\Services;
+namespace API\Models;
 
 use API\Documents\Employee;
 use API\Documents\Address;
@@ -12,10 +12,14 @@ use API\Documents\Project;
 use API\Documents\Manager;
 use API\Entities\User;
 
-use Nodephp\Di\CBaseService;
+use Nodephp\Traits\DoctrineOrm;
+use Nodephp\Traits\DoctrineOdm;
 
-class AccessSerivce extends CBaseService
+class AccessModel
 {
+    use DoctrineOrm;
+    use DoctrineOdm;
+
     public function docPersist()
     {
         $employee = new Employee();
