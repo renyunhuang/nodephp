@@ -40,14 +40,13 @@ class NodeCore extends HttpKernel
         $type = HttpKernelInterface::MASTER_REQUEST,
         $catch = false
     ) {
-        try
-        {
+        try {
+
             $request->attributes->add($this->matcher->match($request->getPathInfo()));
             $controller = $this->resolver->getController($request);
             $arguments = $this->resolver->getArguments($request, $controller);
 
             $this->_initNativeSession($request);
-
             $callback = call_user_func_array($controller, $arguments);
             if (is_object($callback) && $callback instanceof Response) {
                 $this->deflRes = clone $callback;

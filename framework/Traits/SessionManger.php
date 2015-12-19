@@ -1,7 +1,6 @@
 <?php
 namespace Nodephp\Traits;
 
-use Nodephp\Traits\Validator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
@@ -12,7 +11,6 @@ use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHa
 
 trait SessionManger
 {
-    use Validator;
 
     public function _initNativeSession(Request $request)
     {

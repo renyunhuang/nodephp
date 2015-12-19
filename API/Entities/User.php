@@ -38,7 +38,7 @@ class User
 
     public function getOpenId()
     {
-        return $this->$openid;
+        return $this->openid;
     }
 
     public function getUserName()

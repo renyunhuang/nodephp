@@ -7,54 +7,55 @@ trait DoctrineOrm
 
     private $entityManger = null;
 
-    final public function __initDoctrineTrait()
+    final public function initOrmTrait()
     {
-        if (file_exists(APP_PATH . '/bootstrap.php')) {
-            require_once(APP_PATH . '/bootstrap.php');
+        if (file_exists(APP_PATH . DS . '..' . DS . 'bootstrap.php')) {
+            require_once(APP_PATH . DS . '..' . DS . 'bootstrap.php');
             $this->entityManger = isset(get_defined_vars()['entityManager']) ?
                 get_defined_vars()['entityManager'] : null;
-
+        } else {
+            throw new \Exception('could not find the bootstrap from:' . APP_PATH . DS . 'bootstrap.php');
         }
     }
 
-    public function persist($entity)
+    public function ormPersistTrait($entity)
     {
-        if($this->entityManger) {
+        if ($this->entityManger) {
             $this->entityManger->persist($entity);
         }
     }
 
-    public function flush()
+    public function ormFlushTrait()
     {
-        if($this->entityManger) {
+        if ($this->entityManger) {
             $this->entityManger->flush();
         }
     }
 
-    public function findAll()
+    public function ormFindAllTrait()
     {
-        if($this->entityManger) {
+        if ($this->entityManger) {
             return $this->entityManger->findAll();
         }
     }
 
-    public function find($entity, $id)
+    public function ormFindTrait($entity, $id)
     {
-        if($this->entityManger) {
+        if ($this->entityManger) {
             return $this->entityManger->find($entity, $id);
         }
     }
 
-    public function getRepository($entity)
+    public function ormGetRepositoryTrait($entity)
     {
-        if($this->entityManger) {
+        if ($this->entityManger) {
             return $this->entityManger->getRepository($entity);
         }
     }
 
-    public function createQuery($dql)
+    public function ormCreateQueryTrait($dql)
     {
-        if($this->entityManger) {
+        if ($this->entityManger) {
             return $this->entityManger->createQuery($dql);
         }
     }

@@ -12,13 +12,15 @@ use API\Documents\Project;
 use API\Documents\Manager;
 use API\Entities\User;
 
-use Nodephp\Traits\DoctrineOrm;
-use Nodephp\Traits\DoctrineOdm;
+use API\Models\AppModel;
 
-class AccessModel
+class AccessModel extends AppModel
 {
-    use DoctrineOrm;
-    use DoctrineOdm;
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     public function docPersist()
     {
@@ -41,11 +43,11 @@ class AccessModel
         $manager->setStarted(new DateTime());
 
 
-        $this->persist($employee);
-        $this->persist($address);
-        $this->persist($project);
-        $this->persist($manager);
-        $this->flush();
+        $this->odmPersistTrait($employee);
+        $this->odmPersistTrait($address);
+        $this->odmPersistTrait($project);
+        $this->odmPersistTrait($manager);
+        $this->odmPersistTrait();
     }
 
     public function ormPersist()
@@ -55,23 +57,23 @@ class AccessModel
         $user->setUserName('orm_demo');
         $user->setOpenId(crypt('orm_demo', 'nd'));
         $user->setPassword(crypt('orm_demo', '$1$somethin$'));
-        $this->persist($user);
-        $this->flush();
+        $this->ormPersistTrait($user);
+        $this->ormFlushTrait();
         # findAll
-        $users = $this->getRepository(User::ENTITY_NAME)->findAll();
+        $users = $this->ormGetRepositoryTrait(User::ENTITY_NAME)->findAll();;
 
         while ($user = array_shift($users)) {
             echo sprintf("-%s\n", $user->getOpenId());
             $lastuid = $user->getId();
         }
         # find
-        $user = $this->find(User::ENTITY_NAME, $lastuid);
+        $user = $this->ormFindTrait(User::ENTITY_NAME, $lastuid);
         if ($user) {
             echo sprintf("username:%s", $user->getUserName());
         }
         #dql
         $dql = "SELECT u.openid FROM " . User::ENTITY_NAME . " u ORDER BY u.id DESC";
-        $query = $this->createQuery($dql);
+        $query = $this->ormCreateQueryTrait($dql);
         $rs = $query->getArrayResult();
         foreach ((array)$rs as $row) {
             echo $row['openid'] . nl2br(PHP_EOL);
