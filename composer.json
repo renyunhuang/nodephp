@@ -1,6 +1,6 @@
 {
     "name": "nodephp_framework",
-    "license": "none",
+    "license": "MIT",
     "type": "project",
     "autoload": {
         "psr-4": {
@@ -18,8 +18,8 @@
       "symfony/event-dispatcher": "2.1.*",
       "symfony/console": "2.7.*",
       "doctrine/orm": "2.4.*",
-      "doctrine/mongodb-odm": "1.0.3",
       "symfony/dependency-injection": "2.1.*",
-      "smarty/smarty": "~3.1"
+      "smarty/smarty": "~3.1",
+      "symfony/config": "~2.3|~3.0"
     }
 }
