@@ -6,7 +6,9 @@
         "psr-4": {
           "Nodephp\\":"framework/",
           "API\\":"api",
-          "Test\\":"test"
+          "Test\\":"test",
+          "Backend\\":"backend",
+          "Front\\":"front"
 	    }
     },
     "require": {
@@ -20,6 +22,7 @@
       "doctrine/orm": "2.4.*",
       "symfony/dependency-injection": "2.1.*",
       "smarty/smarty": "~3.1",
-      "symfony/config": "~2.3|~3.0"
+      "symfony/config": "~2.3|~3.0",
+      "twbs/bootstrap": "3.3.*"
     }
 }
