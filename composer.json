@@ -8,7 +8,7 @@
           "API\\":"api",
           "Test\\":"test",
           "Backend\\":"backend",
-          "Front\\":"front"
+          "Frontend\\":"frontend"
 	    }
     },
     "require": {
