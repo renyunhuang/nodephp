@@ -7,9 +7,12 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Test\\' => array($baseDir . '/test'),
-    'Symfony\\Component\\Yaml\\' => array($vendorDir . '/symfony/yaml'),
+    'Symfony\\Component\\Filesystem\\' => array($vendorDir . '/symfony/filesystem'),
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
+    'Symfony\\Component\\Config\\' => array($vendorDir . '/symfony/config'),
     'Nodephp\\' => array($baseDir . '/framework'),
+    'Frontend\\' => array($baseDir . '/frontend'),
     'Doctrine\\Common\\Cache\\' => array($vendorDir . '/doctrine/cache/lib/Doctrine/Common/Cache'),
-    'API\\' => array($baseDir . '/API'),
+    'Backend\\' => array($baseDir . '/backend'),
+    'API\\' => array($baseDir . '/api'),
 );
