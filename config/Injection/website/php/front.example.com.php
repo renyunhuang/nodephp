@@ -38,7 +38,8 @@ $routes->add('css', new Route('/{path}/{file}.{_format}', array(
         $css = file_get_contents(APP_FRONT_RESOURCE_PATH . $request->getPathInfo(), false, null, -1);
         $response = new Response($css);
         $response->headers->set('Content-Type', 'text/css');
-
+        //200 OK(BFCache)
+        $response->setExpires(new \DateTime('2019-01-01'));
         return $response;
     },
 ),
