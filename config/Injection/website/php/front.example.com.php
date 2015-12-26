@@ -13,8 +13,8 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 global $di, $request, $routes;
 
 #.html config
-$routes->add('front_index', new Route('/{params}.html', array(
-    'params' => null,
+$routes->add('front_index', new Route('/{path}/{file}.html', array(
+    'file' => null,
     '_controller' => function (Request $request) {
         if (!file_exists(APP_FRONT_RESOURCE_PATH . $request->getPathInfo())) {
             throw new ResourceNotFoundException(APP_FRONT_RESOURCE_PATH . $request->getPathInfo());
@@ -26,6 +26,7 @@ $routes->add('front_index', new Route('/{params}.html', array(
 ),
     array(
         '_method' => 'GET',
+        'path' => 'dashboard',
     )));
 #.css config
 $routes->add('css', new Route('/{path}/{file}.{_format}', array(
@@ -62,7 +63,7 @@ $routes->add('js', new Route('/{path}/{file}.{_format}', array(
 ),
     array(
         '_method' => 'GET',
-        '_format' => 'js|min.js',
+        '_format' => 'js|min.js|11.3.min.js',
         'path' => 'dist/js|assets/js|assets/js/vendor|app/js'
     )));
 #.jpeg config
@@ -98,5 +99,24 @@ $routes->add('font', new Route('/{path}/{file}.{_format}', array(
         '_method' => 'GET',
         '_format' => 'ttf|woff2|woff',
         'path' => 'dist/fonts|assets/fonts|app/fonts'
+    )));
+
+#plugin config
+$routes->add('plugin', new Route('/{path}/{file}.{_format}', array(
+    'file' => null,
+    '_controller' => function (Request $request) {
+        if (!file_exists(APP_FRONT_RESOURCE_PATH . $request->getPathInfo())) {
+            throw new ResourceNotFoundException(APP_FRONT_RESOURCE_PATH . $request->getPathInfo());
+        }
+        $plugin = file_get_contents(APP_FRONT_RESOURCE_PATH . $request->getPathInfo(), false, null, -1);
+        $response = new Response($plugin);
+        $response->headers->set('Content-Type', 'applicaiton/x-shockwave-flash');
+        return $response;
+    },
+),
+    array(
+        '_method' => 'GET',
+        '_format' => 'swf',
+        'path' => 'assets/flash'
     )));
 
