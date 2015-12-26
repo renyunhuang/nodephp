@@ -14,20 +14,25 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 global $di, $request, $routes;
 
 #.html config
-$routes->add('front_index', new Route('/{path}/{file}.html', array(
+$routes->add('front_index', new Route('/{path}/{file}.{_format}', array(
     'file' => null,
     '_controller' => function (Request $request) {
         if (!file_exists(APP_FRONT_RESOURCE_PATH . $request->getPathInfo())) {
             throw new ResourceNotFoundException(APP_FRONT_RESOURCE_PATH . $request->getPathInfo());
         }
         $file = file_get_contents(APP_FRONT_RESOURCE_PATH . $request->getPathInfo(), false, null, -1);
+        $response = new Response($file);
+        $response->headers->set('Content-Type','text/html');
+        $response->setEtag(md5($file, false));
+        $response->isNotModified($request);
 
-        return new Response($file, '200', array('Content-Type' => 'text/html'));
+        return $response;
     }
 ),
     array(
         '_method' => 'GET',
-        'path' => 'dashboard',
+        '_format' => 'html',
+        'path' => 'app'
     )));
 #.css config
 $routes->add('css', new Route('/{path}/{file}.{_format}', array(
@@ -50,7 +55,7 @@ $routes->add('css', new Route('/{path}/{file}.{_format}', array(
         'path' => 'dist/css|assets/css|app/css'
     )));
 #.js config
-$routes->add('js', new Route('/{path}/{file}.{_format}', array(
+$routes->add('front_js', new Route('/{path}/{file}.{_format}', array(
     'file' => null,
     '_controller' => function (Request $request) {
         $js = new File(APP_FRONT_RESOURCE_PATH . $request->getPathInfo(), true); # check file exists
