@@ -7,6 +7,7 @@
 use Symfony\Component\Routing\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
@@ -52,12 +53,15 @@ $routes->add('css', new Route('/{path}/{file}.{_format}', array(
 $routes->add('js', new Route('/{path}/{file}.{_format}', array(
     'file' => null,
     '_controller' => function (Request $request) {
-        if (!file_exists(APP_FRONT_RESOURCE_PATH . $request->getPathInfo())) {
-            throw new ResourceNotFoundException(APP_FRONT_RESOURCE_PATH . $request->getPathInfo());
-        }
-        $js = file_get_contents(APP_FRONT_RESOURCE_PATH . $request->getPathInfo(), false, null, -1);
-        $response = new Response($js);
+        $js = new File(APP_FRONT_RESOURCE_PATH . $request->getPathInfo(), true); # check file exists
+        $jsContent = file_get_contents(APP_FRONT_RESOURCE_PATH . $request->getPathInfo(), false, null, -1);
+        $response = new Response($jsContent);
         $response->headers->set('Content-Type', 'text/javascript');
+        $jsLastModified = $js->getMTime();
+        $date = new \DateTime('now');//UTC
+        $date->setTimestamp($jsLastModified);
+        $response->setLastModified($date);
+        $response->isNotModified($request);
 
         return $response;
     },
