@@ -43,11 +43,13 @@ class AppController extends CBaseController
 
     public function initSmartyConfig()
     {
-        $this->smarty->setTemplateDir(APP_VIEWS_PATH);
-        $this->smarty->setConfigDir(APP_VIEWS_CONFIG);
-        $this->smarty->debugging = true;
-        $this->smarty->caching = false;
-        $this->smarty->cache_lifetime = 0;
+
+        $this->smarty->setTemplateDir(BACKEND_VIEW_PATH);
+        $this->smarty->setConfigDir(BACKEND_CONFIG_PATH.DS.'smarty');
+        $this->smarty->setCacheDir(BACKEND_CACHE_PATH.DS.'smarty');
+        $this->smarty->debugging = false;
+        $this->smarty->caching = true;
+        $this->smarty->cache_lifetime = 60;
     }
 }
 
